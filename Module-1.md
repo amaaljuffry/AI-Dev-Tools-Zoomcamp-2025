@@ -1,79 +1,80 @@
-# Module 1 — Introduction to Vibe Coding  
-
-[▶️ Watch the Workshop Video](https://www.youtube.com/watch?v=NSMXQk4Axig&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
 
 
-## Overview 
+# Module 1 — Introduction to Vibe Coding
 
-This module introduces participants to modern AI development tooling, showing how different categories of tools can enhance developer's experience. 
+[![Introduction to Vibe Coding](https://img.youtube.com/vi/NSMXQk4Axig/0.jpg)](https://www.youtube.com/watch?v=NSMXQk4Axig&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
 
-- AI-assisted development with Snake game example (React + JS)
-- Chat applications: ChatGPT, Claude, DeepSeek, Microsoft Copilot
-- Coding assistants / IDEs: Claude Code, GitHub Copilot, Cursor, Pear
-- Project bootstrappers: Bolt, Lovable
-- Agents: Anthropic Computer Use, PR Agent, others 
+### Video Summary
 
+"Vibe Coding" is an innovative approach to software development that leverages artificial intelligence (AI), particularly large language models (LLMs), to generate code from natural language descriptions.
 
-## Snake Game and Chat Applications
+**Key Points:**
 
-Developing the snake game with ChatGPT and Claude
+* **Definition**: Focuses on defining *what* needs to be programmed rather than *how* to do it line-by-line.
+* **Accessibility**: Lowers the barrier to entry, allowing people without extensive programming knowledge to create applications by describing their ideas.
+* **Efficiency**: Accelerates development cycles, ideal for prototypes and startups.
+* **Process (Vibe Coding Loop)**:
 
-Chat apps allow quick Q&A and prototyping but often require switching between the chat and IDE.  
+  1. Describe the intent.
+  2. AI generates the draft code.
+  3. User reviews, tests, and refines.
+  4. Repeat the cycle by adjusting prompts.
+* **Tools**: GitHub Copilot, Cursor, and similar productivity tools.
+* **Best Practices**: Human oversight remains crucial. Keep the codebase small, test frequently, and understand the core architecture.
 
-- [ChatGPT](https://chatgpt.com/) — General-purpose LLM with strong coding abilities.  
-- [Claude](https://claude.ai/) — AI assistant by Anthropic, strong on reasoning and long context handling.  
-- [DeepSeek](https://www.deepseek.com/en) — Open-source, performance-optimized LLM for coding and analysis.  
-- [Ernie](https://ernie.baidu.com/) — Baidu’s large model platform.  
-- [Microsoft Copilot](https://copilot.microsoft.com/) — Microsoft’s general AI assistant (distinct from GitHub Copilot).  
+### Key Concepts
 
+* **Wipe Coding**: Delegating a large portion of the work to AI for faster delivery.
+* **Project Bootstrappers**: Tools like *Lovable* that generate entire applications from a prompt.
+* **AI IDEs**: Editors with native AI capabilities (Cursor) or AI extensions (Copilot) that understand project context.
+* **Agents**: AIs capable of performing actions autonomously, such as running terminal commands or browsing.
 
+### Tool Categories Analyzed
 
-## AI Coding Assistants / IDE Integrations  
+1. **Chat Apps (ChatGPT, Claude)**
 
-These tools are embedded into editors/IDEs to provide inline code suggestions, test generation, multi-file edits, and more.  
+   * Common entry point for idea generation.
+   * **Limitation**: Requires manual context switching.
+   * Claude tends to create more structured code than ChatGPT.
 
-- [Claude Code](https://www.anthropic.com/claude-code) — Command-line + IDE companion for AI-powered coding.  
-	```bash
-	npm install -g @anthropic-ai/claude-code
-	```  
-- [GitHub Copilot](https://github.com/features/copilot) — GitHub’s AI coding partner integrated into IDEs like VS Code, JetBrains.  
-- [Cursor](https://cursor.com/) — An AI-first IDE built around coding with LLMs.  
-- [Pear](https://trypear.ai/) — Open-Source AI Assistant.  
+2. **CLI Tools (Claude Code)**
 
-## 3. Project Bootstrappers  
+   * Terminal-based agents that can create files and run commands.
+   * Useful for rapid iteration without leaving the command line.
 
-Bootstrappers generate entire project from natural language prompts. Useful for quick prototyping.  
+3. **IDE Assistants (Copilot, Cursor)**
 
-- [Bolt.new](https://bolt.new/) — Generate full-stack applications quickly.  
-- [Lovable.dev](https://lovable.dev/) — Create applications from prompts with frontend/UI focus.  
+   * Work directly inside your coding environment.
+   * Copilot excels at autocompletion and refactoring.
+   * Cursor allows multi-file edits (Composer) and maintains stronger project understanding.
 
-## 4. Agents  
+4. **Bootstrappers (Lovable)**
 
-Agents are autonomous coding helpers that combine LLMs with tools to read/write files, run commands, and manage projects.  
-They form the backbone of many assistants and scaffolders.  
+   * Generate high-quality app prototypes quickly.
+   * Ideal workflow:
+     *Lovable (UI Prototype) → GitHub → Cursor (Logic and refinement).*
 
-- [Anthropic Computer Use](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo) — Demonstration of agents that can interact with computers and files.  
-	```bash
-	docker run \
-		-e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
-		-v $HOME/.anthropic:/home/computeruse/.anthropic \
-		-p 5900:5900 \
-		-p 8501:8501 \
-		-p 6080:6080 \
-		-p 8080:8080 \
-		-it ghcr.io/anthropics/anthropic-quickstarts:computer-use-demo-latest
-	```  
-- [PR Agent](https://github.com/qodo-ai/pr-agent) — Automates pull request reviews and suggestions.
+5. **Autonomous Agents (Computer Use)**
 
+   * Future direction: AI that manipulates GUI elements directly (mouse, keyboard) to perform tasks.
 
-## Homework
+### Workshop Conclusions
 
-- [2025 Homework](../cohorts/2025/01-overview/homework.md)
+* AI tooling is evolving rapidly: Chat Apps → Plugins → AI IDEs → App Generators.
+* No single tool is best; **the synergy of multiple tools** drives productivity.
+* AI democratizes software development, enabling both beginners and experienced developers to build effectively.
 
 
-## Community notes
+### Other Resources
 
-Did you take notes? You can share them here
+| Resource                      | Type         | Description                                                |
+| ----------------------------- | ------------ | ---------------------------------------------------------- |
+| Django Official Documentation | Web          | Authoritative reference for Django.                        |
+| Google Antigravity            | IDE          | Google's new IDE with autonomous agents.                   |
+| GitHub Copilot                | Tool         | AI coding assistant built into VS Code.                    |
+| Cursor AI                     | IDE          | AI-native code editor with strong project context.         |
+| ChatGPT                       | Chat         | General-purpose AI for prompts and scaffolding.            |
+| Claude                        | Chat         | Known for strong reasoning and structured code generation. |
+| Lovable                       | Bootstrapper | Converts prompts into full web applications.               |
 
-* [Notes Jesus Oviedo](https://github.com/jesusoviedo/ai-dev-tools-zoomcamp/tree/main/week1#module-1--introduction-to-vibe-coding)
-* Add a link to your notes above this line
+---
