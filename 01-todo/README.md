@@ -2,6 +2,8 @@
 
 A simple TODO application built with Django.
 
+![TODO App Screenshot](todo.png)
+
 ## Setup
 
 1. **Create a virtual environment:**
