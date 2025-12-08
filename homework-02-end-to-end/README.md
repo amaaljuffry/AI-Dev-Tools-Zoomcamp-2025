@@ -2,7 +2,7 @@
 
 A real-time collaborative code interview platform with in-browser code execution.
 
-Link https://ai-dev-tools-zoomcamp-2025-production.up.railway.app/
+Link [https://ai-dev-tools-zoomcamp-2025-production.up.railway.app/](https://codeview.ama24.my/)
 
 ![Screenshot](screenshot.png)
 
