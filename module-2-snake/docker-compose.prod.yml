@@ -1,0 +1,55 @@
+# Snake Arena Online - Production Docker Compose
+# Combined frontend + backend container with PostgreSQL
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: snake-arena-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-snakearena}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-snakearena}
+      POSTGRES_DB: ${POSTGRES_DB:-snakearena}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-snakearena} -d ${POSTGRES_DB:-snakearena}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - snake-network
+
+  # Combined App (Frontend + Backend)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: snake-arena-app
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-snakearena}:${POSTGRES_PASSWORD:-snakearena}@postgres:5432/${POSTGRES_DB:-snakearena}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-this-secret-key-in-production}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost,http://127.0.0.1}
+    ports:
+      - "${APP_PORT:-3080}:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - snake-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  snake-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

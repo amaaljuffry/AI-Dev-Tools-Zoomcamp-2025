@@ -1,0 +1,508 @@
+openapi: 3.0.0
+info:
+  title: Snake Arena Online API
+  description: |
+    API specification for Snake Arena Online backend, derived from frontend requirements.
+    
+    ## Authentication
+    Most endpoints require JWT authentication. Include the token in the Authorization header:
+    `Authorization: Bearer <token>`
+    
+    ## WebSocket
+    For real-time spectating, connect to `ws://localhost:5000/ws/spectate/{gameId}`
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api
+    description: Local development server
+
+paths:
+  /auth/login:
+    post:
+      summary: Login user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+
+  /auth/signup:
+    post:
+      summary: Register new user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          description: Email or username already exists
+
+  /auth/logout:
+    post:
+      summary: Logout user
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+
+  /auth/me:
+    get:
+      summary: Get current user profile
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Not authenticated
+
+  /leaderboard:
+    get:
+      summary: Get leaderboard entries
+      tags: [Leaderboard]
+      parameters:
+        - in: query
+          name: mode
+          schema:
+            type: string
+            enum: [walls, pass-through]
+          description: Filter by game mode
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Number of entries to return
+      responses:
+        '200':
+          description: List of leaderboard entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaderboardEntry'
+
+    post:
+      summary: Submit a new score
+      tags: [Leaderboard]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitScoreRequest'
+      responses:
+        '201':
+          description: Score submitted successfully
+        '401':
+          description: Not authenticated
+
+  /games/active:
+    get:
+      summary: Get active games for spectating
+      tags: [Games]
+      responses:
+        '200':
+          description: List of active games
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActiveGame'
+
+  /games/start:
+    post:
+      summary: Start a new game session
+      tags: [Games]
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Game started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameSession'
+        '401':
+          description: Not authenticated
+
+  /games/{gameId}/end:
+    post:
+      summary: End a game session and save score
+      tags: [Games]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: gameId
+          required: true
+          schema:
+            type: string
+          description: The game session ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndGameRequest'
+      responses:
+        '200':
+          description: Game ended and score saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameResult'
+        '401':
+          description: Not authenticated
+        '404':
+          description: Game not found
+
+  /games/{gameId}/state:
+    put:
+      summary: Update game state (for spectating)
+      tags: [Games]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: gameId
+          required: true
+          schema:
+            type: string
+          description: The game session ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameState'
+      responses:
+        '200':
+          description: Game state updated
+        '401':
+          description: Not authenticated
+        '404':
+          description: Game not found
+
+  /users/{userId}/stats:
+    get:
+      summary: Get user statistics
+      tags: [Users]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        '200':
+          description: User statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStats'
+        '404':
+          description: User not found
+
+  /health:
+    get:
+      summary: Health check endpoint
+      tags: [System]
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - id
+        - username
+        - email
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          type: string
+          description: JWT token for authentication
+      required:
+        - user
+        - token
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    SignupRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        password:
+          type: string
+          minLength: 6
+      required:
+        - email
+        - username
+        - password
+
+    LeaderboardEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        score:
+          type: integer
+        mode:
+          type: string
+          enum: [walls, pass-through]
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - id
+        - username
+        - score
+        - mode
+        - timestamp
+
+    SubmitScoreRequest:
+      type: object
+      properties:
+        score:
+          type: integer
+        mode:
+          type: string
+          enum: [walls, pass-through]
+      required:
+        - score
+        - mode
+
+    ActiveGame:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        score:
+          type: integer
+        mode:
+          type: string
+          enum: [walls, pass-through]
+        spectators:
+          type: integer
+          description: Number of spectators watching
+        duration:
+          type: string
+          description: Game duration in M:SS format
+        snake:
+          type: array
+          items:
+            type: object
+            properties:
+              x:
+                type: integer
+              y:
+                type: integer
+        food:
+          type: object
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+      required:
+        - id
+        - username
+        - score
+        - mode
+        - snake
+        - food
+
+    GameSession:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique game session ID
+        userId:
+          type: string
+        startedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - startedAt
+
+    EndGameRequest:
+      type: object
+      properties:
+        score:
+          type: integer
+          minimum: 0
+        mode:
+          type: string
+          enum: [walls, pass-through]
+      required:
+        - score
+
+    GameResult:
+      type: object
+      properties:
+        id:
+          type: string
+        score:
+          type: integer
+        isHighScore:
+          type: boolean
+          description: Whether this is the user's new high score
+        rank:
+          type: integer
+          description: Current leaderboard rank
+      required:
+        - id
+        - score
+        - isHighScore
+
+    GameState:
+      type: object
+      properties:
+        snake:
+          type: array
+          items:
+            type: object
+            properties:
+              x:
+                type: integer
+              y:
+                type: integer
+        food:
+          type: object
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+        score:
+          type: integer
+        direction:
+          type: object
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+      required:
+        - snake
+        - food
+        - score
+
+    UserStats:
+      type: object
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        gamesPlayed:
+          type: integer
+        highScore:
+          type: integer
+        totalScore:
+          type: integer
+        averageScore:
+          type: number
+        rank:
+          type: integer
+      required:
+        - userId
+        - username
+        - gamesPlayed
+        - highScore
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code for programmatic handling
+      required:
+        - error

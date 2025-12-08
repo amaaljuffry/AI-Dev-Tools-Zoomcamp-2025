@@ -1,178 +1,308 @@
-# End-to-End Application Development
+# Module 2 — End-to-End Application (Snake)
 
-In this homework, we'll build an end-to-end application with AI.
+## Overview
 
-You can use any tool you want: ChatGPT, Claude, GitHub Copilot, Codex, Cursor, Antigravity, etc.
+[🎥 Video](https://www.youtube.com/watch?v=vMNJru1y2Uc&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
 
-With chat-based applications you will need to copy code back-and-forth, so we recommend that you use an AI assistant in your IDE with agent mode.
+In this module, we will create an end-to-end application using AI:
 
-We will implement a platform for online coding interviews.
+- create frontend with Lovable and React
+- extract OpenAPI specs from the frontend 
+- implement backend with FastAPI based on the specs
+- add database support to the backend
+- containerize everything
+- deploy to Render
+- create a CI/CD pipeline with tests and deployment
 
-The app should be able to do the following:
+You will find all the code here: https://github.com/alexeygrigorev/snake-arena-online
 
-- Create a link and share it with candidates
-- Allow everyone who connects to edit code in the code panel
-- Show real-time updates to all connected users
-- Support syntax highlighting for multiple languages
-- Execute code safely in the browser
+## Frontend
 
-You can choose any technologies you want. For example:
+[🎥 Video](https://www.youtube.com/watch?v=F1XJuV1V-BU&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
 
-- Frontend: React + Vite
-- Backend: Express.js
+First we will start with implementing frontend with Lovable.
 
-We recommend using JavaScript for frontend, because with other technologies, some of the homework requirements may be difficult to implement.
+You can choose any other tool (Bootraper like Bolt, or AI Assistant like Cursor, Claude Code, Codex, Copilot or Antigravity)
 
-But you can experiment with alternatives, such as Streamlit.
+For Lovable, I used this prompt:
 
-You don't need to know these technologies for doing this homework.
+> create the snake game with two models: pass-through and walls. prepare to make it multiplayers - we will have this functionality: leaderboard and watching (me following other players that currently play). add mockups for that and also for log in.
+> everything should be interactive - I can log in, sign up, see my username when I'm logged in, see leaderboard, see
+> other people play (in this case just implement some playing logic yourself as if somebody is playing) 
+> make sure that all the logic is covered with tests 
+> 
+> don't implement backend, so everything is mocked. But centralize all the calls to the backend in one place
 
+Create the frontend and put it to Github.
 
-## Question 1: Initial Implementation
 
-Ask AI to implement both frontend and backend - in one prompt.
+## (Optional) Connecting Antigravity to Codespaces
 
-Note: you can also follow the same path as in the videos and make it in 3 steps:
+[🎥 Video](https://www.youtube.com/watch?v=D7vrd8SJENg&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
 
-1. Frontend
-2. OpenAPI specs
-3. Backend
 
-What's the initial prompt you gave to AI to start the implementation?
+For the rest of the videos, I'll use 
+[Google Antrigravity](https://antigravity.google/) as the AI assistant and [Codespaces](https://github.com/features/codespaces) as the environment.
 
-Copy and paste it in the homework form.
+If you want to have the same setup, in this section I'll show how to connect Antigravity to Codespaces. These instructions work for Cursor too.
 
+If you use Copilot or Codex, you don't need it - just use VS Code to connect to Codespaces.
 
-## Question 2: Integration Tests
+If you run things locally, you also don't need it. But you need to have NodeJS, Python and Docker installed (Codespaces already have them). 
 
-Maybe at this point your application will already function. Maybe not. But it's always a good idea to cover it with tests.
+Step 1: Install GitHub CLI
 
-We usually do it even before trying to run the application because it helps to resurface all the problems with implementation.
+* Download from: https://github.com/cli/cli/releases
 
-Ask AI to write integration tests that check that the interaction between client and server works.
+Step 2: Authenticate
 
-Also it's a good idea to ask it to start creating a `README.md` file with all the commands for running and testing your application.
+```bash
+# Authenticate with GitHub using SSH
+gh auth login
+# Select: SSH protocol and your existing SSH key for GitHub
+# Follow the remaining prompts
 
-What's the terminal command you use for executing tests?
-
-
-
-## Question 3: Running Both Client and Server
-
-Now let's make it possible to run both client and server at the same time. Use `concurrently` for that.
-
-What's the command you have in `package.json` for `npm dev` for running both?
-
-
-## Question 4: Syntax Highlighting
-
-Let's now add support for syntax highlighting for JavaScript and Python.
-
-Which library did AI use for it?
-
-
-
-## Question 5: Code Execution
-
-Now let's add code execution.
-
-For security reasons, we don't want to execute code directly on the server. Instead, let's use WASM to execute the code only in the browser.
-
-Which library did AI use for compiling Python to WASM?
-
-
-## Question 6: Containerization
-
-Now let's containerize our application. Ask AI to help you create a Dockerfile for the application. Put both backend and frontend in one container.
-
-What's the base image you used for your Dockerfile?
-
-
-## Question 7: Deployment
-
-Now let's deploy it. Choose a service to deploy your application.
-
-Which service did you use for deployment?
-
-
-## Homework URL
-
-Commit your code to GitHub. You can create a repository for this course. Within the repository, create a folder, e.g. "02-coding-interview", where you put the code.
-
-Use the link to this folder in the homework submission form.
-
-Don't forget to commit your code at every step. You can create an `AGENTS.md` file with the instructions for AI to help you with git commands.
-
-
-## Tip
-
-You can copy-paste the homework description into the AI system of your choice. But make sure you understand (and follow) all the steps in the response.
-
-
-## Submission
-
-Submit your homework here: https://courses.datatalks.club/ai-dev-tools-2025/homework/hw2
-
-
-## Learning in Public
-
-We encourage everyone to share what they learned. 
-
-Don't worry about being perfect. Everyone starts somewhere, and people love following genuine learning journeys!
-
-### Recording a Demo Video
-
-Consider recording a short demo video of your application in action! This makes your post much more engaging and helps others see what you've built.
-
-You can use:
-- Screen recording tools like OBS Studio, QuickTime, or Windows Game Bar
-- Loom for quick and shareable recording
-- Snapping Tool on Windowns
-  
-Keep it short (30-90 seconds) and show:
-- Creating a coding session link
-- Multiple users editing code simultaneously
-- Real-time updates across browsers
-- Code execution in action
-
-Upload your video to LinkedIn, Twitter/X, or YouTube and share the link!
-
-### Example post for LinkedIn:
-
-```
-🚀 Week 2 of AI Dev Tools Zoomcamp by @DataTalksClub complete!
-
-Just built a real-time collaborative coding interview platform using AI assistants!
-
-Today I learned how to:
-
-- ✅ Build full-stack applications with AI (frontend + backend)
-- ✅ Implement real-time collaboration with WebSockets
-- ✅ Add syntax highlighting for multiple languages
-- ✅ Execute code safely in the browser with WASM
-- ✅ Containerize and deploy the application
-
-Here's my repo: <LINK>
-Demo video: <VIDEO_LINK>
-
-Following along with this amazing course - who else is building with AI?
-
-You can sign up here: https://github.com/DataTalksClub/ai-dev-tools-zoomcamp/
+# authenticate for codespaces
+gh auth refresh -h github.com -s codespace
 ```
 
-### Example post for Twitter/X:
+Step 3: Create and Use Codespace
 
-
+```bash
+gh codespace create
+# Note the ID that's generated (e.g., expert-doodle-wr7wg9p5gqcgggw)
 ```
-🤖 Built a collaborative coding platform with AI!
 
-🔗 Shareable links
-⚡ Real-time collaboration
-🎨 Syntax highlighting
-🚀 Browser code execution
+Step 4: Connect via SSH
 
-My repo: <LINK>
-Demo: <VIDEO_LINK>
-
-Join me: https://github.com/DataTalksClub/ai-dev-tools-zoomcamp/
+```bash
+gh codespace ssh -c expert-doodle-wr7wg9p5gqcgggw
 ```
+
+Next, get the SSH config:
+
+```bash
+gh codespace ssh --config -c expert-doodle-wr7wg9p5gqcgggw
+```
+
+Add the output to `~/.ssh/config`
+
+**If you encounter "cannot find the key" error:**
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/codespaces.auto
+ssh <codespace-name>
+```
+
+Step 5: Use with Antigravity
+
+- Connect to codespace using Antigravity's SSH remote mode
+- Open the project folder in `/workspaces/`
+
+Step 6: Stop Codespace When Done
+
+```bash
+gh cs stop -c expert-doodle-wr7wg9p5gqcgggw
+```
+
+
+## Running and Testing the Frontend Locally
+
+* [🎥 Video #1 (starting from 12:00)](https://www.youtube.com/watch?v=D7vrd8SJENg&t=719&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+* [🎥 Video #2 about tests](https://www.youtube.com/watch?v=xbsV_RarTUM&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+
+Run the Application:
+
+```bash
+# Install dependencies and start the development server
+npm install
+npm run dev
+```
+
+Run Tests:
+
+```bash
+npm test
+```
+
+
+## Creating the Backend
+
+[🎥 Video](https://www.youtube.com/watch?v=jHVbbw-v_zY&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+
+First, move all frontend files into a dedicated folder:
+
+```bash
+mkdir frontend
+mv * frontend/
+```
+
+Next, we will generate the OpenAPI Specifications
+
+OpenAPI specifications provide a standardized way to define REST APIs, enabling automatic documentation generation, client/server code generation, and ensuring contract consistency between frontend and backend.
+
+Let's create it:
+
+> analyse the content of the client and create an OpenAPI specs based on what it needs. later we want to implement backend based on these specs
+
+Now we're ready to create the backend project:
+
+```bash
+pip install uv
+mkdir backend && cd backend
+uv init
+```
+
+AI Agents don't know how to properly use `uv` (it's a relatively new tool). So we need to tell them how to use it. We typically use the `AGENTS.md` file for that.
+
+Let's create it: 
+
+```markdown
+For backend development, use `uv` for dependency management.
+
+Useful Commands
+
+    # Sync dependencies from lockfile
+    uv sync
+
+    # Add a new package
+    uv add <PACKAGE-NAME>
+
+    # Run Python files
+    uv run python <PYTHON-FILE>
+```
+
+**Note:** At the moment of creating this course, Antigravity doesn't automatically follow the instuctions in AGENTS.md. Until they fix it, ask it explicitly to follow these guidelines.
+
+Now let's create the backend. The prompt:
+
+> based on the OpenAPI specs, create fastapi backend 
+> for now use a mock database, which we will later replace with a real one
+> create tests to make sure the implementation works
+> 
+> follow the guidelines in AGENTS.md
+
+Additionally, you can ask AI to implement a `verify_api.py` script that tests the running server to ensure all endpoints work correctly.
+
+
+## Integrating Frontend and Backend
+
+[🎥 Video](https://www.youtube.com/watch?v=Y46XU8MYnmY&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+
+We now have backend. Lets connect it to frontend. Prompt:
+
+> Make frontend use backend. use OpenAPI specs for guidance
+> follow the guidelines in AGENTS.md
+
+We also need a way to run them both at the same tile. Prompt: 
+
+> How can I run both frontend and backend at the same time? 
+> Let's use concurrently instead of our own script
+
+If you have an error, just tell AI to fix it. For example, during preparation, when I tried to create an account in the app, it would show an error message saying "Not Found". Here's how I fixed it:
+
+> I tried creating an account and it says Not Found
+> write a test on backend to reproduce it, fix it, and make sure the frontend works fine too
+
+## Database Support
+
+* [🎥 Video (Adding database)](https://www.youtube.com/watch?v=q8r_ugvQxEE&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+* [🎥 Video (Integration tests)](https://www.youtube.com/watch?v=kfEjwDD5Vv8&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+Our backend uses a mock database. Let's use a real one now. Prompt:
+> now for backend let's use postgres and sqlite database (via sqlalchemy) 
+> follow the guidelines in AGENTS.md
+
+And don't forget about tests for the database layer:
+
+> let's also add some integration tests (using sqlite) to make sure things work 
+> put the integration test in a separate folder tests_integration
+
+
+## Containerization with Docker
+
+[🎥 Video (Containerization)](https://www.youtube.com/watch?v=mftbW-QXFRI&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+
+It works with SQLite, but how about Postgres? Let's containerize everything 
+and also add Postgres support: 
+
+> right now we have frontend, backend, and database (sqlite)
+> 
+> let's put everything into docker compose and use postgres there. we can serve frontend with nginx or whatever you recommend
+
+Run it:
+
+```bash
+docker-compose up --build
+```
+
+Stop when done:
+
+```bash
+docker-compose down
+```
+
+
+## Deloyment
+
+[🎥 Video](https://www.youtube.com/watch?v=Y7OnXqYs30k&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+For deployment we need a single container with both frontend and backend. 
+Let's ask AI to put them together:
+
+> For deployment we need to put together backend
+> and frontend in one container. let's do that
+
+And then ask:
+
+> I want to deploy it to the cloud now. what are the options
+
+My answer:
+
+> let's go with render
+
+## CI/CD
+
+[🎥 Video](https://www.youtube.com/watch?v=lcmP9YCUmYw&list=PL3MmuxUbc_hLuyafXPyhTdbF4s_uNhc43)
+
+
+Prompt:
+
+> I want to create a CI/CD pipeline with github actions with two parts
+> 
+> - first we run tests (frontend + backend)
+> - if tests pass, I want to deploy the update to render
+
+We also want to add integration tests:
+
+> let's also run integration tests for backend separately before running deployment
+
+If you 
+
+
+## Cleanup
+
+Don't forget to stop codespaces:
+
+
+```bash
+gh cs stop -c <CODESPACE_NAME>
+```
+
+Also if you deployed your application to the cloud, don't forget to delete your instances when you no longer need them.
+
+
+## Homework
+
+- [2025 Homework](../cohorts/2025/02-end-to-end/homework.md)
+
+
+## Community notes
+
+Did you take notes? You can share them here
+
+* Add a link to your notes above this line

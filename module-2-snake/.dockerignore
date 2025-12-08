@@ -1,0 +1,41 @@
+# Dependencies
+node_modules
+frontend/node_modules
+backend/.venv
+backend/__pycache__
+
+# Build outputs
+frontend/build
+backend/.pytest_cache
+
+# Development files
+.git
+.gitignore
+*.md
+*.log
+
+# IDE
+.vscode
+.idea
+
+# Environment files (we pass these via docker-compose)
+.env
+.env.local
+.env.example
+
+# Test files
+backend/tests_integration
+*.test.js
+*.spec.js
+
+# Docker
+Dockerfile
+Dockerfile.*
+docker-compose*.yml
+!docker-compose.prod.yml
+
+# Misc
+*.sqlite3
+*.db
+.DS_Store
+Thumbs.db

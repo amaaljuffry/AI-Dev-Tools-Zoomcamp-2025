@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+
+# Build artifacts
+build/
+dist/
+
+# IDE
+.idea/
+.vscode/
+
+# Testing
+.pytest_cache/
+*.db
+test_integration.db
+htmlcov/
+.coverage
+
+# Environment
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

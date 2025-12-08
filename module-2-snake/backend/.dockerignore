@@ -1,0 +1,35 @@
+# Virtual environment
+.venv/
+venv/
+__pycache__/
+
+# Testing
+.pytest_cache/
+*.db
+test_integration.db
+htmlcov/
+.coverage
+
+# IDE
+.idea/
+.vscode/
+
+# Environment
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
